@@ -41,7 +41,6 @@ def qsort(a, l, r):
 
 a = [7,2,1,4,6,0,8,5,9,3]
 lenght = len(a)
-print(a.sort())
 print(a)
 qsort(a, 0, lenght- 1)
 print(isSorted(a))

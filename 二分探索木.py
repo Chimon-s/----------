@@ -6,57 +6,51 @@ class BSTNode:
 
 
     def insert(self, val):
-        if not self.val:
-            self.val = val
+        if not self.val: #1回目はself.valに何もなくNoneな為実行される。
+            self.val = val #下に連ねるための親
             # print("1")
             return
         
-        if self.val == val:
+        if self.val == val: #あっても無くても
             # print("2")
             return
         
-        if val < self.val:
-            if self.left:
-                self.left.insert(val) 
+        if val < self.val: #1つ目に入れたのよりvalが小さければ19行目へ
+            if self.left: #leftは1回目はNoneとして扱われ、2回目以降は数字が入るのでTrueを返す。
+                self.left.insert(val) #self.leftの中でinsert関数が呼び出されて(再帰)、self.val = self.leftになり、仮想的な親として扱われる。
                 # print("3")
                 return
-            self.left = BSTNode(val)
+            self.left = BSTNode(val) #self.leftにvalを代入
             return 
             
         if self.right:
-            self.right.insert(val)
+            self.right.insert(val) #rightも1回目はNoneとして扱われ、2回目以降は数字が入るのでTrueを返す。
             # print("4")
             return
-        self.right = BSTNode(val)
+        self.right = BSTNode(val) #self.rightに代入
 
     def delete(self, val):
-        if self is None:
+        if self is None: 
             return self
         print("あああ",self.val)
         if val < self.val:
             print("<")
-            self.left = self.left.delete(val)
+            self.left = self.left.delete(val) 
             return self
         if val > self.val:
             print(">")
-            self.right = self.right.delete(val)
+            self.right = self.right.delete(val) 
             return self
-        print("nama", 1)
-        if self.right is None:
-            return self.left
-        print("nama", 2)
+        if self.right is None: 
+            return self.left #左下の数をselfに持ってくる。
         if self.left is None:
-            return self.right
-        print("nama", 3)
-        min_larger_Node = self.right #valの値が一致したらその右下の値をNodeに持ってくる
-        print("aaaa", min_larger_Node)
-        while min_larger_Node.left: #Nodeに持ってきた値の左下があったら実行
+            return self.right #右下の数をselfに持ってくる。
+        #子供が2人だったら下に行く
+        min_larger_Node = self.right #
+        while min_larger_Node.left: #Nodeに持ってきた値の左下を探すプログラム
             min_larger_Node = min_larger_Node.left #Nodeの一番左下がくるまで上に上げてく
-        #     print("aa", min_larger_Node)
-        # print(min_larger_Node.val)
-        self.val = min_larger_Node.val
-        print("nama", 4)
-        self.right = self.right.delete(min_larger_Node.val)
+        self.val = min_larger_Node.val #一番左の数をvalに持ってくる
+        self.right = self.right.delete(min_larger_Node.val) #min_larger_Node.valが2つ出来上がっているから消す
         return self
     
     def exists(self, val): #existsは木の中にval(数字)があるかどうか確かめる
